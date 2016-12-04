@@ -1,11 +1,11 @@
 package org.vaadin.addon.oauthpopup;
 
-import java.util.LinkedList;
-
 import com.github.scribejava.core.builder.api.DefaultApi10a;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.Token;
 import com.vaadin.server.BrowserWindowOpener;
+
+import java.util.LinkedList;
 
 /**
  * Component extension that opens an OAuth authorization popup window when the extended
@@ -56,13 +56,25 @@ public class OAuthPopupOpener extends BrowserWindowOpener {
 	}
 
 	/**
-	 * Create a new OAuth popop opener for an OAuth 2.0 service.
+	 * Create a new OAuth popup opener for an OAuth 2.0 service.
 	 * 
 	 * @param api The ScribeJava OAuth 2.0 API singleton instance.
 	 * @param config OAuth configuration for the particular service.
 	 */
 	public OAuthPopupOpener(DefaultApi20 api, OAuthPopupConfig config) {
 		super(OAuthPopupUI.class);
+		this.data = new OAuthData(api, config);
+	}
+
+	/**
+	 * Create a new OAuth popup opener for an OAuth 2.0 service.
+	 *
+	 * @param api The ScribeJava OAuth 2.0 API singleton instance.
+	 * @param config OAuth configuration for the particular service.
+	 * @param url the URL to open in the window
+	 */
+	public OAuthPopupOpener(DefaultApi20 api, OAuthPopupConfig config, String url) {
+		super(url);
 		this.data = new OAuthData(api, config);
 	}
 

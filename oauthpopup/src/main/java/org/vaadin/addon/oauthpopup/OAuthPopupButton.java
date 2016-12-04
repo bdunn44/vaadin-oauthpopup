@@ -19,7 +19,7 @@ import com.vaadin.ui.Button;
  * by giving the ScribeJava API class and OAuth configuration for the constructor.</p>
  * 
  * <p>Pre-configured subclasses for a number of OAuth services are  available at 
- * {@link org.vaadin.addon.oauthpop.buttons}.</p>
+ * {@link org.vaadin.addon.oauthpopup.buttons}.</p>
  *
  */
 public class OAuthPopupButton extends Button {
@@ -71,6 +71,21 @@ public class OAuthPopupButton extends Button {
 		this.opener = new OAuthPopupOpener(api, config);
 		opener.extend(this);
 	}
+
+
+	/**
+	 * Create a new OAuth popup button for an OAuth 2.0 service.
+	 * Can be used in combination with the Spring Vaadin plugin
+	 * using a ui annotated with @SpringUI
+	 *
+	 * @param api The ScribeJava OAuth 2.0 API singleton instance.
+	 * @param config OAuth configuration for the particular service.
+	 * @param url The url/path on which our UI instance is listening
+	 */
+	public OAuthPopupButton(DefaultApi20 api, OAuthPopupConfig config, String url) {
+		this.opener = new OAuthPopupOpener(api, config, url);
+		opener.extend(this);
+	}
 	
 	/**
 	 * Retrives the OAuth configuration in use by this widget.
@@ -106,7 +121,7 @@ public class OAuthPopupButton extends Button {
 	}
 	
 	/**
-	 * <p>Set the features given to the {@link BrowserWindowOpener}.</p>
+	 * <p>Set the features given to the {@link com.vaadin.server.BrowserWindowOpener}.</p>
 	 * <p>See here for feature names: https://vaadin.com/book/vaadin7/-/page/advanced.html</p>
 	 * 
 	 * @param features Comma separated list of features.
