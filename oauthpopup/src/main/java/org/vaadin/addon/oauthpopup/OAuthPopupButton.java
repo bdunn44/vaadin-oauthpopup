@@ -3,7 +3,6 @@ package org.vaadin.addon.oauthpopup;
 import com.github.scribejava.core.builder.api.DefaultApi10a;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.UI;
 
 /**
  * <p>A button that opens a OAuth authorization url in a separate browser window,
