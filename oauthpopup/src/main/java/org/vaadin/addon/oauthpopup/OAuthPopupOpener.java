@@ -4,6 +4,7 @@ import com.github.scribejava.core.builder.api.DefaultApi10a;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.Token;
 import com.vaadin.server.BrowserWindowOpener;
+import com.vaadin.ui.UI;
 
 import java.util.LinkedList;
 
@@ -17,7 +18,7 @@ import java.util.LinkedList;
 @SuppressWarnings("serial")
 public class OAuthPopupOpener extends BrowserWindowOpener {
 	
-	private LinkedList<OAuthListener> listeners = new LinkedList<OAuthListener>();
+	private LinkedList<OAuthListener> listeners = new LinkedList<>();
 	
 	private final OAuthData data;
 	private OAuthListener dataListener;
@@ -73,7 +74,7 @@ public class OAuthPopupOpener extends BrowserWindowOpener {
 	 * @param config OAuth configuration for the particular service.
 	 * @param url the URL to open in the window
 	 */
-	public OAuthPopupOpener(DefaultApi20 api, OAuthPopupConfig config, String url) {
+	protected OAuthPopupOpener(DefaultApi20 api, OAuthPopupConfig config, String url) {
 		super(url);
 		this.data = new OAuthData(api, config);
 	}

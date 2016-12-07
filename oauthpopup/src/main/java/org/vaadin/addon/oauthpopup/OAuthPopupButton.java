@@ -3,6 +3,7 @@ package org.vaadin.addon.oauthpopup;
 import com.github.scribejava.core.builder.api.DefaultApi10a;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.UI;
 
 /**
  * <p>A button that opens a OAuth authorization url in a separate browser window,
@@ -27,6 +28,7 @@ public class OAuthPopupButton extends Button {
 	private static final long serialVersionUID = -3227617699696740673L;
 
 	private final OAuthPopupOpener opener;
+
 
 	/**
 	 * Create a new OAuth popup button for an OAuth 1.0a service.
@@ -84,6 +86,16 @@ public class OAuthPopupButton extends Button {
 	 */
 	public OAuthPopupButton(DefaultApi20 api, OAuthPopupConfig config, String url) {
 		this.opener = new OAuthPopupOpener(api, config, url);
+		opener.extend(this);
+	}
+
+	/**
+	 * Create a new OAuth popup button with an already created {@link OAuthPopupOpener}
+	 *
+	 * @param opener
+	 */
+	public OAuthPopupButton(OAuthPopupOpener opener) {
+		this.opener = opener;
 		opener.extend(this);
 	}
 	
