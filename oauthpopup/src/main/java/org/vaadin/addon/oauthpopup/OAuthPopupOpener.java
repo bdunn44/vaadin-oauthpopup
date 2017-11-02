@@ -6,6 +6,7 @@ import com.github.scribejava.core.builder.api.DefaultApi10a;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.Token;
 import com.vaadin.server.BrowserWindowOpener;
+import com.vaadin.ui.UI;
 
 /**
  * Component extension that opens an OAuth authorization popup window when the extended
@@ -21,6 +22,8 @@ public class OAuthPopupOpener extends BrowserWindowOpener {
 	
 	private final OAuthData data;
 	private OAuthListener dataListener;
+	
+	private final UI ui;
 
 	/**
 	 * Create a new OAuth popup opener for an OAuth 1.0a service.
@@ -41,6 +44,7 @@ public class OAuthPopupOpener extends BrowserWindowOpener {
 	 */
 	public OAuthPopupOpener(DefaultApi10a api, OAuthPopupConfig config) {
 		super(OAuthPopupUI.class);
+		this.ui = UI.getCurrent();
 		this.data = new OAuthData(api, config);
 	}
 	
@@ -61,8 +65,10 @@ public class OAuthPopupOpener extends BrowserWindowOpener {
 	 * @param api The ScribeJava OAuth 2.0 API singleton instance.
 	 * @param config OAuth configuration for the particular service.
 	 */
-	public OAuthPopupOpener(DefaultApi20 api, OAuthPopupConfig config) {
+	public OAuthPopupOpener( DefaultApi20 api, OAuthPopupConfig config) {
 		super(OAuthPopupUI.class);
+		this.ui = UI.getCurrent();
+		
 		this.data = new OAuthData(api, config);
 	}
 
@@ -75,6 +81,8 @@ public class OAuthPopupOpener extends BrowserWindowOpener {
 	 */
 	protected OAuthPopupOpener(DefaultApi20 api, OAuthPopupConfig config, String url) {
 		super(url);
+		this.ui = UI.getCurrent();
+		
 		this.data = new OAuthData(api, config);
 	}
 
@@ -148,25 +156,25 @@ public class OAuthPopupOpener extends BrowserWindowOpener {
 		// Coming from different thread than the usual Vaadin server visit.
 		// That's why we have to call access.
 		// Doing this here so our listeners don't need to.
-		getUI().access(new Runnable() {
+		ui.access(new Runnable() {
 			@Override
 			public void run() {
 				for (final OAuthListener li : listeners) {
 					li.authSuccessful(token, isOAuth20);
 				}
-				getUI().push();
+				ui.push();
 			}
 		});
 	}
 	
 	private void fireAuthFailed(final String reason) {
-		getUI().access(new Runnable() {
+		ui.access(new Runnable() {
 			@Override
 			public void run() {
 				for (final OAuthListener li : listeners) {
 					li.authDenied(reason);
 				}
-				getUI().push();
+				ui.push();
 			}
 		});
 	}
